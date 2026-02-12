@@ -1,0 +1,4 @@
+/home/ec2-user/neeraj
+file.txt
+filecheck.sh
+ping.sh
