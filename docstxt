@@ -1,0 +1,178 @@
+Checking file/folder exits or not 
+================================================================
+
+if [[ -d folder_name ]] 			file/folder exits or not
+if [[ ! -d folder_name ]] 			file/folder does not exists
+
+
+
+REDIRECTION IN SCRIPTS
+=======================================================
+syntax : >    >>
+
+ex-
+
+pwd > file.txt
+ls >> file.txt
+
+cat file.txt
+
+================================================================
+STORING OUTPUT INTSED OF SHOWING ON CONSOLE
+
+ping -c 5 >> ping.txt
+
+====================================================================
+
+/dev/null
+
+if we dont wanted to store the output of that line wee use /dev/null
+
+[ec2-user@ip-172-31-29-32 neeraj]$ cat devnull.sh
+#!/bin/bash
+
+read -p " Enter DNS Name or IP you wna ping " name
+ping -c 1 $name &> /dev/null
+#sleep 5s
+
+if [[ $? -eq 0 ]]
+then
+        echo "Successfully pinged to $name"
+else
+        echo "No found"
+fi
+
+
+======================================================================
+
+LOG MESSAGES
+
+you find logs under /var/logs/messages
+
+Ex- #logger "Hey Buddy"
+
+
+sudo: logger.sh: command not found
+[ec2-user@ip-172-31-29-32 neeraj]$ vi logger.sh
+#!/bin/bash
+
+logger "This is log from $0"
+
+
+=======================================================================
+
+set x
+
+print line by line of script
+
+[ec2-user@ip-172-31-29-32 neeraj]$ cat setx.sh
+#!/bin/bash
+
+set -x
+
+date
+uptime
+pwd
+
+
+
+=======================================================================
+
+set -e
+
+if we want to exit our script if command failed
+
+
+[ec2-user@ip-172-31-29-32 neeraj]$ cat sete.sh
+#!/bin/bash
+
+set -e
+
+pwd
+date
+uptime
+cd /root
+ls -lrt
+[ec2-user@ip-172-31-29-32 neeraj]$
+
+
+=========================================================================
+
+RUNNING SCRIPT IN BACKGROUND
+
+	syntax -  nohup ./script.sh &			-output saved in nohup
+
+[ec2-user@ip-172-31-29-32 neeraj]$ cat fornohub.sh
+#!/bin/bash
+
+for i in {1..5}
+do
+        echo "Number is $i"
+done
+
+for name in Neeraj Kumar Verma
+do
+        echo "Name is $name"
+done
+
+===========================================================================
+
+Automate our script using AT or crontab
+
+For scheduling only one time use AT command
+
+at 12:00
+/Neeraj.ping.sh
+
+[ec2-user@ip-172-31-29-32 neeraj]$ atq
+[ec2-user@ip-172-31-29-32 neeraj]$ date
+Thu Feb 12 06:17:58 UTC 2026
+[ec2-user@ip-172-31-29-32 neeraj]$ at 06:19
+warning: commands will be executed using /bin/sh
+at Thu Feb 12 06:19:00 2026
+at> ping.sh
+at> ^C[ec2-user@ip-172-31-29-32 neeraj]$ pwd
+/home/ec2-user/neeraj
+[ec2-user@ip-172-31-29-32 neeraj]$ atq
+1       Thu Feb 12 06:19:00 2026 a ec2-user
+[ec2-user@ip-172-31-29-32 neeraj]$
+
+
+
+atrm <job id> 			- to remove scheduled job
+
+
+===================================================================
+crontab			- scheduling jon at specific date and time
+crontab -l		- list
+crontab -e		- creating new crontab job
+
+
+* * * * * cd /home/user && ./script.sh
+
+======================================================================
+
+Project
+
+1- Monitoring RAM memory
+
+[ec2-user@ip-172-31-29-32 project]$ cat ram.sh
+#!/bin/bash
+
+ram=$(free -mt | grep "Total" | awk {'print $4'})
+TH=500
+
+if [[ ram -le TH ]]
+then
+        echo "Runnig low ram $ram"
+else
+        echo "Ram is sufficient $ram"
+fi
+[ec2-user@ip-172-31-29-32 project]$
+
+
+
+2- 
+
+
+
